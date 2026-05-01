@@ -1,209 +1,469 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hygia | Premium Cleaning & Supplies</title>
-    <style>
-        @import url('[https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Oswald:wght@500;700&display=swap](https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Oswald:wght@500;700&display=swap)');
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --azul:#1a3a5c;--azul-claro:#2a6496;--verde:#0d7c4a;--celeste:#e8f4fd;
+    --gris:#f5f5f2;--texto:#1a1a1a;--muted:#666;--borde:#ddd;
+    --danger:#c0392b;--success:#27ae60;
+  }
+  body{font-family:'DM Sans',sans-serif;color:var(--texto);background:#fff}
+  header{background:var(--azul);color:#fff;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;color:#fff}
+  .logo span{color:#7ec8e3}
+  .header-right{display:flex;align-items:center;gap:1rem}
+  .btn-cart{background:var(--verde);color:#fff;border:none;padding:0.5rem 1.2rem;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.95rem;display:flex;align-items:center;gap:6px;transition:0.2s}
+  .btn-cart:hover{background:#0a6339}
+  .cart-count{background:#e74c3c;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:500}
+  .btn-admin{background:transparent;color:#aaa;border:1px solid #555;padding:0.4rem 0.9rem;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.8rem;transition:0.2s}
+  .btn-admin:hover{color:#fff;border-color:#fff}
 
-        :root {
-            --primary: #001a2c;
-            --accent: #00d1ff;
-            --success: #00ff88;
-            --bg: #0f172a; /* Fondo oscuro premium estilo cyberpunk */
-            --card-bg: #1e293b;
-            --text-light: #f8fafc;
-            --text-dim: #94a3b8;
-        }
+  /* NAV CATEGORÍAS */
+  nav{background:var(--azul-claro);overflow-x:auto;white-space:nowrap;padding:0 2rem}
+  nav button{background:transparent;color:#cde;border:none;padding:0.75rem 1.2rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.9rem;transition:0.2s;border-bottom:3px solid transparent}
+  nav button:hover,nav button.active{color:#fff;border-bottom-color:#7ec8e3}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-light); overflow-x: hidden; }
+  /* HERO */
+  .hero{background:linear-gradient(135deg,var(--azul) 0%,var(--azul-claro) 100%);color:#fff;padding:3rem 2rem;text-align:center}
+  .hero h1{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;letter-spacing:3px;margin-bottom:0.5rem}
+  .hero p{color:#aad4ee;font-size:1.05rem}
 
-        header {
-            background: rgba(0, 26, 44, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(0, 209, 255, 0.2);
-        }
+  /* GRID */
+  main{padding:2rem;max-width:1100px;margin:0 auto}
+  .section-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:1px;color:var(--azul);margin-bottom:1.5rem;padding-bottom:0.5rem;border-bottom:3px solid var(--celeste)}
+  .productos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;margin-bottom:3rem}
+  .card{border:1px solid var(--borde);border-radius:10px;overflow:hidden;transition:0.2s;background:#fff}
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+  .card-img{background:var(--celeste);height:130px;display:flex;align-items:center;justify-content:center;font-size:3rem}
+  .card-body{padding:1rem}
+  .card-cat{font-size:0.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+  .card-name{font-weight:500;font-size:0.95rem;margin-bottom:0.3rem;line-height:1.3}
+  .card-pres{font-size:0.8rem;color:var(--muted);margin-bottom:0.7rem}
+  .card-footer{display:flex;align-items:center;justify-content:space-between}
+  .precio{font-weight:500;color:var(--azul);font-size:1.1rem}
+  .precio span{font-size:0.75rem;color:var(--muted);font-weight:400}
+  .btn-add{background:var(--verde);color:#fff;border:none;padding:0.4rem 0.9rem;border-radius:6px;cursor:pointer;font-size:0.85rem;transition:0.2s}
+  .btn-add:hover{background:#0a6339}
+  .agotado{background:#ccc;cursor:not-allowed}
 
-        .brand { font-family: 'Oswald', sans-serif; font-size: 1.8rem; letter-spacing: 2px; text-transform: uppercase; }
-        .brand span { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
+  /* CARRITO SIDEBAR */
+  .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;display:none}
+  .cart-overlay.open{display:block}
+  .cart-panel{position:fixed;right:0;top:0;bottom:0;width:360px;background:#fff;z-index:300;display:flex;flex-direction:column;transform:translateX(100%);transition:0.3s}
+  .cart-panel.open{transform:translateX(0)}
+  .cart-header{background:var(--azul);color:#fff;padding:1.2rem 1.5rem;display:flex;align-items:center;justify-content:space-between}
+  .cart-header h2{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1px}
+  .btn-close{background:transparent;border:none;color:#fff;font-size:1.4rem;cursor:pointer}
+  .cart-items{flex:1;overflow-y:auto;padding:1rem}
+  .cart-item{display:flex;gap:10px;align-items:center;padding:0.8rem 0;border-bottom:1px solid var(--borde)}
+  .cart-item-icon{font-size:1.8rem;width:40px;text-align:center}
+  .cart-item-info{flex:1}
+  .cart-item-name{font-size:0.9rem;font-weight:500;margin-bottom:2px}
+  .cart-item-pres{font-size:0.78rem;color:var(--muted)}
+  .qty-ctrl{display:flex;align-items:center;gap:6px;margin-top:4px}
+  .qty-btn{background:var(--gris);border:1px solid var(--borde);width:24px;height:24px;border-radius:4px;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center}
+  .qty-num{font-size:0.9rem;font-weight:500;min-width:20px;text-align:center}
+  .cart-item-total{font-weight:500;color:var(--azul);font-size:0.95rem;white-space:nowrap}
+  .btn-rm{background:transparent;border:none;color:#ccc;cursor:pointer;font-size:1rem;padding:0 4px}
+  .btn-rm:hover{color:var(--danger)}
+  .cart-empty{text-align:center;color:var(--muted);padding:3rem 1rem;font-size:0.95rem}
+  .cart-footer{border-top:2px solid var(--borde);padding:1.2rem 1.5rem;background:var(--gris)}
+  .cart-total{display:flex;justify-content:space-between;font-size:1.1rem;font-weight:500;margin-bottom:1rem}
+  .btn-comprar{width:100%;background:var(--verde);color:#fff;border:none;padding:0.9rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;cursor:pointer;transition:0.2s}
+  .btn-comprar:hover{background:#0a6339}
+  .btn-wsp{width:100%;background:#25d366;color:#fff;border:none;padding:0.75rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.95rem;cursor:pointer;margin-top:0.5rem;transition:0.2s}
+  .btn-wsp:hover{background:#1da851}
 
-        .cart-trigger {
-            background: var(--accent);
-            color: var(--primary);
-            border: none;
-            padding: 0.6rem 1.4rem;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-        }
+  /* PANEL ADMIN */
+  .admin-panel{display:none;padding:2rem;max-width:1100px;margin:0 auto}
+  .admin-panel.active{display:block}
+  .admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+  .admin-header h2{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--azul);letter-spacing:1px}
+  .btn-nuevo{background:var(--verde);color:#fff;border:none;padding:0.6rem 1.2rem;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.9rem}
+  .admin-table{width:100%;border-collapse:collapse;font-size:0.9rem}
+  .admin-table th{background:var(--azul);color:#fff;padding:0.8rem 1rem;text-align:left;font-weight:500}
+  .admin-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--borde)}
+  .admin-table tr:hover td{background:var(--gris)}
+  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:0.75rem}
+  .badge-stock{background:#e8f5e9;color:#2e7d32}
+  .badge-agotado{background:#ffebee;color:#c62828}
+  .btn-edit{background:var(--azul-claro);color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.8rem;margin-right:4px}
+  .btn-del{background:var(--danger);color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.8rem}
 
-        .cart-trigger:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--accent); }
+  /* MODAL */
+  .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:400;display:none;align-items:center;justify-content:center}
+  .modal-bg.open{display:flex}
+  .modal{background:#fff;border-radius:12px;padding:2rem;width:480px;max-width:95vw;max-height:90vh;overflow-y:auto}
+  .modal h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--azul);margin-bottom:1.2rem;letter-spacing:1px}
+  .form-group{margin-bottom:1rem}
+  .form-group label{display:block;font-size:0.85rem;color:var(--muted);margin-bottom:4px}
+  .form-group input,.form-group select,.form-group textarea{width:100%;border:1px solid var(--borde);border-radius:6px;padding:0.55rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:0.2s}
+  .form-group input:focus,.form-group select:focus{border-color:var(--azul-claro)}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  .modal-footer{display:flex;gap:0.8rem;justify-content:flex-end;margin-top:1.5rem}
+  .btn-save{background:var(--verde);color:#fff;border:none;padding:0.6rem 1.4rem;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif}
+  .btn-cancel{background:var(--gris);color:var(--texto);border:1px solid var(--borde);padding:0.6rem 1.4rem;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif}
 
-        .hero {
-            padding: 6rem 5% 4rem;
-            text-align: center;
-            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
-        }
+  .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--verde);color:#fff;padding:0.8rem 1.5rem;border-radius:8px;z-index:500;font-size:0.9rem;transform:translateY(100px);transition:0.3s;pointer-events:none}
+  .toast.show{transform:translateY(0)}
 
-        .hero h1 { font-family: 'Oswald', sans-serif; font-size: 3.5rem; margin-bottom: 1rem; color: white; }
-        .hero p { color: var(--accent); font-weight: 600; letter-spacing: 1px; }
-
-        .container { padding: 2rem 5%; max-width: 1400px; margin: auto; }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-
-        .product-card {
-            background: var(--card-bg);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.05);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--accent);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .icon-box {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-            display: block;
-        }
-
-        .category { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
-        .price { font-size: 2rem; font-weight: 700; color: white; margin: 1.5rem 0; }
-        
-        .btn-add {
-            width: 100%;
-            background: transparent;
-            color: var(--accent);
-            border: 2px solid var(--accent);
-            padding: 1rem;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 700;
-            transition: 0.3s;
-        }
-
-        .btn-add:hover { background: var(--accent); color: var(--primary); }
-
-        /* Admin floating button */
-        .admin-fab {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #334155;
-            color: white;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            border: none;
-            cursor: pointer;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-        }
-    </style>
+  footer{background:var(--azul);color:#aad4ee;text-align:center;padding:1.5rem;font-size:0.85rem;margin-top:3rem}
+  footer strong{color:#fff}
+</style>
 </head>
 <body>
 
 <header>
-    <div class="brand">HYGIA<span>CORE</span></div>
-    <button class="cart-trigger" onclick="verPedido()">
-        CARRITO (<span id="cart-count">0</span>)
+  <div class="logo">HYGIA<span>.</span></div>
+  <div class="header-right">
+    <button class="btn-admin" onclick="toggleAdmin()">⚙ Admin</button>
+    <button class="btn-cart" onclick="abrirCarrito()">
+      🛒 Carrito
+      <span class="cart-count" id="cartCount">0</span>
     </button>
+  </div>
 </header>
 
-<section class="hero">
-    <h1>QUÍMICA HYGIA</h1>
-    <p>DISTRIBUCIÓN DIRECTA DE FÁBRICA</p>
-</section>
+<nav id="navCats">
+  <button class="active" onclick="filtrar('todos',this)">Todos</button>
+  <button onclick="filtrar('lavado',this)">Lavado de Ropa</button>
+  <button onclick="filtrar('limpieza',this)">Limpieza</button>
+  <button onclick="filtrar('papel',this)">Papel</button>
+  <button onclick="filtrar('accesorios',this)">Accesorios</button>
+  <button onclick="filtrar('personal',this)">Cuidado Personal</button>
+</nav>
 
-<div class="container">
-    <div class="grid" id="main-grid"></div>
+<div id="tienda">
+  <div class="hero">
+    <h1>Química Hygia</h1>
+    <p>Somos fabricantes • Dr Lorenzo Guarracino 2268, Lanús Este</p>
+  </div>
+  <main>
+    <div id="productosCont"></div>
+  </main>
 </div>
 
-<button class="admin-fab" onclick="alert('Iniciando Panel Admin...')">⚙️</button>
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-header">
+    <h2>Panel de Administración</h2>
+    <button class="btn-nuevo" onclick="abrirModalNuevo()">+ Nuevo Producto</button>
+  </div>
+  <table class="admin-table">
+    <thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr></thead>
+    <tbody id="adminTabla"></tbody>
+  </table>
+</div>
+
+<!-- CARRITO -->
+<div class="cart-overlay" id="cartOverlay" onclick="cerrarCarrito()"></div>
+<div class="cart-panel" id="cartPanel">
+  <div class="cart-header">
+    <h2>Tu carrito</h2>
+    <button class="btn-close" onclick="cerrarCarrito()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-total"><span>Total:</span><span id="cartTotal">$0</span></div>
+    <button class="btn-comprar" onclick="pedirPorWsp()">Finalizar pedido</button>
+    <button class="btn-wsp" onclick="pedirPorWsp()">📲 Pedir por WhatsApp</button>
+  </div>
+</div>
+
+<!-- MODAL PRODUCTO -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3 id="modalTitle">Nuevo Producto</h3>
+    <div class="form-group">
+      <label>Nombre del producto</label>
+      <input type="text" id="fNombre" placeholder="Ej: Jabón Líquido">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Categoría</label>
+        <select id="fCat">
+          <option value="lavado">Lavado de Ropa</option>
+          <option value="limpieza">Limpieza</option>
+          <option value="papel">Papel</option>
+          <option value="accesorios">Accesorios</option>
+          <option value="personal">Cuidado Personal</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Presentación</label>
+        <input type="text" id="fPres" placeholder="Ej: 5 litros">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Precio ($)</label>
+        <input type="number" id="fPrecio" placeholder="0">
+      </div>
+      <div class="form-group">
+        <label>Stock (unidades)</label>
+        <input type="number" id="fStock" placeholder="0">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Emoji / Ícono</label>
+      <input type="text" id="fEmoji" placeholder="🧴" maxlength="4">
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+      <button class="btn-save" onclick="guardarProducto()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <strong>Química Hygia</strong> — Somos Fabricantes<br>
+  Dr Lorenzo Guarracino 2268, Lanús Este 1824
+</footer>
 
 <script>
-    // Datos integrados de image_3b53bd.jpg
-    const productos = [
-        { id: 1, cat: "PROMO", name: "Combo Marzo", price: 22000, icon: "🔥", desc: "Jabón + Suavizante + Lavandina + Detergente + Papel" },
-        { id: 2, cat: "LAVADO", name: "Jabón Líquido", price: 2800, icon: "🧴", desc: "Tipo Ariel o Skip - 5 Litros" },
-        { id: 3, cat: "LAVADO", name: "Pastas Concentradas", price: 35000, icon: "🧪", desc: "Rinden 100 Ltrs Totales" },
-        { id: 4, cat: "PAPEL", name: "Papel Higiénico Jumbo", price: 4200, icon: "🧻", desc: "Línea Institucional - 2kg" },
-        { id: 5, cat: "LIMPIEZA", name: "Limpiador de Piso", price: 1800, icon: "🌿", desc: "Concentrado rinde 5L" }
-    ];
+let productos = [
+  {id:1,nombre:"Jabón Líquido",cat:"lavado",pres:"5 litros",precio:2800,stock:50,emoji:"🧴",tipo:"Tipo Ariel o Skip"},
+  {id:2,nombre:"Suavizante",cat:"lavado",pres:"5 litros",precio:2600,stock:40,emoji:"🌸",tipo:"Tipo Vivere o Comfort"},
+  {id:3,nombre:"Pasta Concentrada",cat:"lavado",pres:"Kit rinde 100L",precio:3500,stock:25,emoji:"🪣",tipo:"Jabón+Suavizante+Piso"},
+  {id:4,nombre:"Lavandina",cat:"limpieza",pres:"5 litros",precio:1400,stock:80,emoji:"🫙",tipo:""},
+  {id:5,nombre:"Detergente",cat:"limpieza",pres:"1 litro",precio:900,stock:100,emoji:"🍋",tipo:""},
+  {id:6,nombre:"Detergente",cat:"limpieza",pres:"5 litros",precio:3200,stock:60,emoji:"🍋",tipo:""},
+  {id:7,nombre:"Limpiador de Piso",cat:"limpieza",pres:"Conc. rinde 5L",precio:1800,stock:45,emoji:"🌿",tipo:"Lavanda o Pino"},
+  {id:8,nombre:"Limpiador Cremoso",cat:"limpieza",pres:"2 litros",precio:2200,stock:35,emoji:"✨",tipo:"Tipo Cif"},
+  {id:9,nombre:"Limpiador Desinfectante",cat:"limpieza",pres:"1 litro",precio:1600,stock:55,emoji:"🧼",tipo:""},
+  {id:10,nombre:"Perfumina Textil",cat:"limpieza",pres:"2 litros",precio:2000,stock:30,emoji:"💐",tipo:""},
+  {id:11,nombre:"Papel Higiénico",cat:"papel",pres:"Rollos 30m",precio:400,stock:200,emoji:"🧻",tipo:""},
+  {id:12,nombre:"Papel Higiénico",cat:"papel",pres:"Rollos 50m",precio:600,stock:150,emoji:"🧻",tipo:""},
+  {id:13,nombre:"Papel Higiénico DH",cat:"papel",pres:"Pack 24x50",precio:8500,stock:20,emoji:"🧻",tipo:"Doble hoja"},
+  {id:14,nombre:"P.H. Institucional Jumbo",cat:"papel",pres:"2 kg",precio:4200,stock:30,emoji:"🧻",tipo:""},
+  {id:15,nombre:"Rollos de Cocina",cat:"papel",pres:"Pack 3u - 60 paños",precio:1800,stock:60,emoji:"🍽️",tipo:""},
+  {id:16,nombre:"Toallas Intercaladas",cat:"papel",pres:"Pack x1600u",precio:5500,stock:15,emoji:"📄",tipo:"Blancas"},
+  {id:17,nombre:"Esponja de Cocina",cat:"accesorios",pres:"Unidad",precio:350,stock:120,emoji:"🟩",tipo:""},
+  {id:18,nombre:"Rejilla de Cocina",cat:"accesorios",pres:"Unidad",precio:300,stock:90,emoji:"🔶",tipo:""},
+  {id:19,nombre:"Trapo de Piso",cat:"accesorios",pres:"Unidad",precio:450,stock:70,emoji:"🧽",tipo:""},
+  {id:20,nombre:"Shampoo",cat:"personal",pres:"1 litro",precio:2400,stock:40,emoji:"💆",tipo:"Tipo Dove o Sedal"},
+  {id:21,nombre:"Acondicionador",cat:"personal",pres:"1 litro",precio:2400,stock:40,emoji:"💇",tipo:"Tipo Dove o Sedal"},
+];
 
-    let cart = [];
+let carrito = [];
+let editId = null;
+let catActiva = 'todos';
 
-    function render() {
-        const grid = document.getElementById('main-grid');
-        grid.innerHTML = productos.map(p => `
-            <div class="product-card">
-                <span class="category">${p.cat}</span>
-                <span class="icon-box">${p.icon}</span>
-                <h3>${p.name}</h3>
-                <p style="color: var(--text-dim); font-size: 0.9rem; margin-top: 0.5rem">${p.desc}</p>
-                <div class="price">$${p.price.toLocaleString()}</div>
-                <button class="btn-add" onclick="addToCart(${p.id})">AÑADIR AL PEDIDO</button>
-            </div>
-        `).join('');
-    }
+const CATS = {lavado:"Lavado de Ropa",limpieza:"Limpieza",papel:"Papel",accesorios:"Accesorios",personal:"Cuidado Personal"};
 
-    function addToCart(id) {
-        const p = productos.find(x => x.id === id);
-        cart.push(p);
-        document.getElementById('cart-count').innerText = cart.length;
-        
-        // Animación de feedback
-        event.target.innerText = "AGREGADO ✓";
-        event.target.style.borderColor = "var(--success)";
-        event.target.style.color = "var(--success)";
-        
-        setTimeout(() => {
-            event.target.innerText = "AÑADIR AL PEDIDO";
-            event.target.style.borderColor = "var(--accent)";
-            event.target.style.color = "var(--accent)";
-        }, 1000);
-    }
+function renderTienda(){
+  const cont = document.getElementById('productosCont');
+  const grupos = catActiva === 'todos'
+    ? [...new Set(productos.map(p=>p.cat))]
+    : [catActiva];
+  cont.innerHTML = grupos.map(cat=>{
+    const prods = productos.filter(p=>p.cat===cat && (catActiva==='todos'||p.cat===cat));
+    if(!prods.length) return '';
+    return `<div>
+      <div class="section-title">${CATS[cat]||cat}</div>
+      <div class="productos-grid">${prods.map(tarjeta).join('')}</div>
+    </div>`;
+  }).join('');
+}
 
-    function verPedido() {
-        if(cart.length === 0) return alert("El carrito está vacío");
-        const resumen = cart.map(i => `- ${i.name} ($${i.price})`).join('\n');
-        const total = cart.reduce((acc, i) => acc + i.price, 0);
-        alert(`RESUMEN DE PEDIDO:\n\n${resumen}\n\nTOTAL: $${total}\n\nRedirigiendo a WhatsApp...`);
-    }
+function tarjeta(p){
+  const agotado = p.stock<=0;
+  return `<div class="card">
+    <div class="card-img">${p.emoji}</div>
+    <div class="card-body">
+      <div class="card-cat">${CATS[p.cat]||p.cat}</div>
+      <div class="card-name">${p.nombre}${p.tipo?` <span style="font-weight:300;font-size:0.82rem;color:var(--muted)">(${p.tipo})</span>`:''}</div>
+      <div class="card-pres">${p.pres}</div>
+      <div class="card-footer">
+        <div class="precio">$${p.precio.toLocaleString('es-AR')} <span>c/u</span></div>
+        <button class="btn-add${agotado?' agotado':''}" onclick="${agotado?'':`agregarCarrito(${p.id})`}" ${agotado?'disabled':''}>
+          ${agotado?'Agotado':'+ Agregar'}
+        </button>
+      </div>
+    </div>
+  </div>`;
+}
 
-    render();
+function filtrar(cat, btn){
+  catActiva = cat;
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTienda();
+}
+
+function agregarCarrito(id){
+  const p = productos.find(x=>x.id===id);
+  if(!p||p.stock<=0) return;
+  const item = carrito.find(x=>x.id===id);
+  if(item){ item.qty++; } else { carrito.push({id,qty:1}); }
+  renderCarrito();
+  mostrarToast(`${p.emoji} ${p.nombre} agregado`);
+}
+
+function renderCarrito(){
+  const items = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+  const count = document.getElementById('cartCount');
+  const total = carrito.reduce((s,i)=>{
+    const p=productos.find(x=>x.id===i.id);
+    return s+(p?p.precio*i.qty:0);
+  },0);
+  count.textContent = carrito.reduce((s,i)=>s+i.qty,0);
+  if(!carrito.length){
+    items.innerHTML='<div class="cart-empty">Tu carrito está vacío 🛒</div>';
+    footer.style.display='none';
+    return;
+  }
+  footer.style.display='block';
+  document.getElementById('cartTotal').textContent='$'+total.toLocaleString('es-AR');
+  items.innerHTML = carrito.map(i=>{
+    const p=productos.find(x=>x.id===i.id);
+    if(!p) return '';
+    return `<div class="cart-item">
+      <div class="cart-item-icon">${p.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${p.nombre}</div>
+        <div class="cart-item-pres">${p.pres}</div>
+        <div class="qty-ctrl">
+          <button class="qty-btn" onclick="cambiarQty(${p.id},-1)">−</button>
+          <span class="qty-num">${i.qty}</span>
+          <button class="qty-btn" onclick="cambiarQty(${p.id},1)">+</button>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+        <div class="cart-item-total">$${(p.precio*i.qty).toLocaleString('es-AR')}</div>
+        <button class="btn-rm" onclick="quitarCarrito(${p.id})">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function cambiarQty(id,delta){
+  const item=carrito.find(x=>x.id===id);
+  if(!item) return;
+  item.qty+=delta;
+  if(item.qty<=0) carrito=carrito.filter(x=>x.id!==id);
+  renderCarrito();
+}
+
+function quitarCarrito(id){ carrito=carrito.filter(x=>x.id!==id); renderCarrito(); }
+
+function abrirCarrito(){
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartPanel').classList.add('open');
+}
+function cerrarCarrito(){
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartPanel').classList.remove('open');
+}
+
+function pedirPorWsp(){
+  if(!carrito.length) return;
+  let msg = '¡Hola! Quiero hacer un pedido:\n\n';
+  carrito.forEach(i=>{
+    const p=productos.find(x=>x.id===i.id);
+    if(p) msg+=`• ${p.nombre} (${p.pres}) x${i.qty} = $${(p.precio*i.qty).toLocaleString('es-AR')}\n`;
+  });
+  const total=carrito.reduce((s,i)=>{const p=productos.find(x=>x.id===i.id);return s+(p?p.precio*i.qty:0);},0);
+  msg+=`\nTotal: $${total.toLocaleString('es-AR')}`;
+  const url='https://wa.me/5491100000000?text='+encodeURIComponent(msg);
+  window.open(url,'_blank');
+}
+
+/* ADMIN */
+function toggleAdmin(){
+  const panel=document.getElementById('adminPanel');
+  const tienda=document.getElementById('tienda');
+  const nav=document.getElementById('navCats');
+  const isAdmin=panel.classList.contains('active');
+  panel.classList.toggle('active',!isAdmin);
+  tienda.style.display=isAdmin?'':'none';
+  nav.style.display=isAdmin?'':'none';
+  if(!isAdmin) renderAdmin();
+}
+
+function renderAdmin(){
+  const tbody=document.getElementById('adminTabla');
+  tbody.innerHTML=productos.map(p=>`<tr>
+    <td>${p.emoji} ${p.nombre} <span style="color:var(--muted);font-size:0.8rem">(${p.pres})</span></td>
+    <td>${CATS[p.cat]||p.cat}</td>
+    <td>$${p.precio.toLocaleString('es-AR')}</td>
+    <td><span class="badge ${p.stock>0?'badge-stock':'badge-agotado'}">${p.stock>0?p.stock+' unid.':'Agotado'}</span></td>
+    <td>
+      <button class="btn-edit" onclick="editarProducto(${p.id})">Editar</button>
+      <button class="btn-del" onclick="eliminarProducto(${p.id})">Eliminar</button>
+    </td>
+  </tr>`).join('');
+}
+
+function abrirModalNuevo(){
+  editId=null;
+  document.getElementById('modalTitle').textContent='Nuevo Producto';
+  ['fNombre','fPres','fPrecio','fStock','fEmoji'].forEach(f=>document.getElementById(f).value='');
+  document.getElementById('fCat').value='lavado';
+  document.getElementById('modalBg').classList.add('open');
+}
+
+function editarProducto(id){
+  const p=productos.find(x=>x.id===id);
+  if(!p) return;
+  editId=id;
+  document.getElementById('modalTitle').textContent='Editar Producto';
+  document.getElementById('fNombre').value=p.nombre;
+  document.getElementById('fCat').value=p.cat;
+  document.getElementById('fPres').value=p.pres;
+  document.getElementById('fPrecio').value=p.precio;
+  document.getElementById('fStock').value=p.stock;
+  document.getElementById('fEmoji').value=p.emoji;
+  document.getElementById('modalBg').classList.add('open');
+}
+
+function cerrarModal(){ document.getElementById('modalBg').classList.remove('open'); }
+
+function guardarProducto(){
+  const nombre=document.getElementById('fNombre').value.trim();
+  const cat=document.getElementById('fCat').value;
+  const pres=document.getElementById('fPres').value.trim();
+  const precio=parseInt(document.getElementById('fPrecio').value)||0;
+  const stock=parseInt(document.getElementById('fStock').value)||0;
+  const emoji=document.getElementById('fEmoji').value||'📦';
+  if(!nombre){ alert('El nombre es obligatorio'); return; }
+  if(editId){
+    const p=productos.find(x=>x.id===editId);
+    Object.assign(p,{nombre,cat,pres,precio,stock,emoji});
+  } else {
+    productos.push({id:Date.now(),nombre,cat,pres,precio,stock,emoji,tipo:''});
+  }
+  cerrarModal();
+  renderAdmin();
+  renderTienda();
+  mostrarToast('Producto guardado ✓');
+}
+
+function eliminarProducto(id){
+  if(!confirm('¿Eliminar este producto?')) return;
+  productos=productos.filter(x=>x.id!==id);
+  carrito=carrito.filter(x=>x.id!==id);
+  renderAdmin();
+  renderTienda();
+  renderCarrito();
+  mostrarToast('Producto eliminado');
+}
+
+function mostrarToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+renderTienda();
+renderCarrito();
 </script>
-
 </body>
 </html>
