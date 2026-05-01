@@ -3,6 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Química Hygia - Fabricantes directos de productos de limpieza y cuidado personal. Calidad garantizada con más de 20 años de experiencia.">
+<meta name="keywords" content="química hygia, limpieza, jabón, detergente, lavandería, cuidado personal, fabricantes">
+<meta property="og:title" content="Química Hygia - Calidad que Confías">
+<meta property="og:description" content="Fabricantes directos con más de 20 años de experiencia en productos de limpieza y cuidado personal">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://tuweb.com/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-192x192.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'GA_MEASUREMENT_ID');
+</script>
+<!-- Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Química Hygia",
+  "description": "Fabricantes directos de productos de limpieza y cuidado personal con más de 20 años de experiencia",
+  "url": "https://quimicahygia.com",
+  "logo": "https://quimicahygia.com/logo.png",
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+54-11-XXXX-XXXX",
+    "contactType": "customer service"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Dr Lorenzo Guarracino 2268",
+    "addressLocality": "Lanús Este",
+    "addressRegion": "Buenos Aires",
+    "postalCode": "1824",
+    "addressCountry": "AR"
+  },
+  "sameAs": [
+    "https://www.facebook.com/quimicahygia",
+    "https://www.instagram.com/quimicahygia"
+  ]
+}
+</script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
@@ -21,6 +67,10 @@
   .cart-count{background:#e74c3c;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:500}
   .btn-admin{background:transparent;color:#aaa;border:1px solid #555;padding:0.4rem 0.9rem;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.8rem;transition:0.2s}
   .btn-admin:hover{color:#fff;border-color:#fff}
+  .btn-login{background:transparent;color:#fff;border:1px solid #7ec8e3;padding:0.4rem 0.9rem;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.8rem;transition:0.2s}
+  .btn-login:hover{background:#7ec8e3;color:var(--azul)}
+  .btn-user-profile{background:transparent;border:none;padding:0.4rem;cursor:pointer;transition:0.2s}
+  .user-avatar-small{width:30px;height:30px;border-radius:50%;background:#7ec8e3;color:var(--azul);display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:600}
 
   /* NAV CATEGORÍAS */
   nav{background:var(--azul-claro);overflow-x:auto;white-space:nowrap;padding:0 2rem}
@@ -72,27 +122,70 @@
   .btn-rm:hover{color:var(--danger)}
   .cart-empty{text-align:center;color:var(--muted);padding:3rem 1rem;font-size:0.95rem}
   .cart-footer{border-top:2px solid var(--borde);padding:1.2rem 1.5rem;background:var(--gris)}
+  .cart-shipping-progress{margin-bottom:1rem}
+  .shipping-bar{background:#e0e0e0;height:8px;border-radius:4px;overflow:hidden;margin-bottom:0.5rem}
+  .shipping-fill{background:var(--verde);height:100%;transition:width 0.3s}
+  .shipping-text{font-size:0.85rem;color:var(--muted);text-align:center}
+  .shipping-text.free{color:var(--verde);font-weight:600}
+  .cart-recommendations{margin-bottom:1rem;padding:1rem;background:#fff;border-radius:8px;border:1px solid var(--borde)}
+  .rec-title{font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--azul)}
+  .rec-items{display:flex;gap:0.5rem;overflow-x:auto}
+  .rec-item{flex-shrink:0;padding:0.5rem;background:var(--gris);border-radius:6px;text-align:center;min-width:80px}
+  .rec-item-emoji{font-size:1.5rem;margin-bottom:0.25rem}
+  .rec-item-name{font-size:0.7rem;color:var(--muted)}
+  .rec-item-price{font-size:0.8rem;font-weight:600;color:var(--azul)}
   .cart-total{display:flex;justify-content:space-between;font-size:1.1rem;font-weight:500;margin-bottom:1rem}
   .btn-comprar{width:100%;background:var(--verde);color:#fff;border:none;padding:0.9rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:1rem;font-weight:500;cursor:pointer;transition:0.2s}
   .btn-comprar:hover{background:#0a6339}
   .btn-wsp{width:100%;background:#25d366;color:#fff;border:none;padding:0.75rem;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:0.95rem;cursor:pointer;margin-top:0.5rem;transition:0.2s}
   .btn-wsp:hover{background:#1da851}
 
-  /* PANEL ADMIN */
-  .admin-panel{display:none;padding:2rem;max-width:1100px;margin:0 auto}
+  /* PANEL ADMIN ENHANCED */
+  .admin-panel{display:none;padding:2rem;max-width:1400px;margin:0 auto;background:#f8f9fa;min-height:100vh}
   .admin-panel.active{display:block}
-  .admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
-  .admin-header h2{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--azul);letter-spacing:1px}
-  .btn-nuevo{background:var(--verde);color:#fff;border:none;padding:0.6rem 1.2rem;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.9rem}
+  .admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding:1.5rem;background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+  .admin-title-section h2{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--azul);letter-spacing:1px;margin-bottom:0.3rem}
+  .admin-subtitle{color:var(--muted);font-size:0.95rem;margin:0}
+  .admin-actions{display:flex;gap:0.8rem}
+  .btn-export{background:var(--azul-claro);color:#fff;border:none;padding:0.6rem 1.2rem;border-radius:6px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.9rem;transition:0.2s}
+  .btn-export:hover{background:#1a5490}
+  
+  /* Admin Stats */
+  .admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+  .stat-card{background:#fff;padding:1.5rem;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.05);text-align:center;transition:0.3s}
+  .stat-card:hover{transform:translateY(-2px);box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+  .stat-number{font-size:2rem;font-weight:700;color:var(--azul);display:block;margin-bottom:0.5rem}
+  .stat-label{font-size:0.85rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
+  
+  /* Admin Filters */
+  .admin-filters{display:flex;gap:1rem;margin-bottom:1.5rem;padding:1rem;background:#fff;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.05);flex-wrap:wrap}
+  .filter-group{flex:1;min-width:200px}
+  .filter-group input,.filter-group select{width:100%;border:1px solid var(--borde);border-radius:6px;padding:0.6rem 0.8rem;font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:0.2s}
+  .filter-group input:focus,.filter-group select:focus{border-color:var(--azul-claro)}
+  
+  /* Admin Table Enhanced */
+  .admin-table-container{background:#fff;border-radius:12px;box-shadow:0 2px 15px rgba(0,0,0,0.08);overflow:hidden;margin-bottom:1.5rem}
   .admin-table{width:100%;border-collapse:collapse;font-size:0.9rem}
-  .admin-table th{background:var(--azul);color:#fff;padding:0.8rem 1rem;text-align:left;font-weight:500}
-  .admin-table td{padding:0.75rem 1rem;border-bottom:1px solid var(--borde)}
-  .admin-table tr:hover td{background:var(--gris)}
-  .badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:0.75rem}
-  .badge-stock{background:#e8f5e9;color:#2e7d32}
-  .badge-agotado{background:#ffebee;color:#c62828}
-  .btn-edit{background:var(--azul-claro);color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.8rem;margin-right:4px}
-  .btn-del{background:var(--danger);color:#fff;border:none;padding:4px 10px;border-radius:4px;cursor:pointer;font-size:0.8rem}
+  .admin-table th{background:var(--azul);color:#fff;padding:1rem;text-align:left;font-weight:500;position:sticky;top:0;z-index:10}
+  .admin-table th:hover{background:var(--azul-claro)}
+  .admin-table td{padding:0.8rem 1rem;border-bottom:1px solid #f0f0f0}
+  .admin-table tr:hover td{background:#f8f9fa}
+  .admin-table tr.selected td{background:#e3f2fd}
+  
+  /* Batch Actions */
+  .admin-batch-actions{background:#fff;padding:1rem;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.05);display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+  .batch-info{font-weight:500;color:var(--azul)}
+  .batch-buttons{display:flex;gap:0.5rem}
+  .btn-batch{background:var(--gris);color:var(--texto);border:1px solid var(--borde);padding:0.5rem 1rem;border-radius:6px;cursor:pointer;font-size:0.85rem;transition:0.2s}
+  .btn-batch:hover{background:var(--borde)}
+  
+  /* Checkbox for batch selection */
+  .admin-checkbox{width:18px;height:18px;cursor:pointer}
+  
+  /* Status badges enhanced */
+  .badge-stock{background:#e8f5e9;color:#2e7d32;padding:4px 8px;border-radius:20px;font-size:0.75rem;font-weight:600}
+  .badge-agotado{background:#ffebee;color:#c62828;padding:4px 8px;border-radius:20px;font-size:0.75rem;font-weight:600}
+  .badge-bajo{background:#fff3e0;color:#f57c00;padding:4px 8px;border-radius:20px;font-size:0.75rem;font-weight:600}
 
   /* MODAL */
   .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:400;display:none;align-items:center;justify-content:center}
@@ -111,7 +204,247 @@
   .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--verde);color:#fff;padding:0.8rem 1.5rem;border-radius:8px;z-index:500;font-size:0.9rem;transform:translateY(100px);transition:0.3s;pointer-events:none}
   .toast.show{transform:translateY(0)}
 
-  footer{background:var(--azul);color:#aad4ee;text-align:center;padding:1.5rem;font-size:0.85rem;margin-top:3rem}
+  /* HERO ENHANCED */
+  .hero-enhanced{background:linear-gradient(135deg,var(--azul) 0%,var(--azul-claro) 100%);color:#fff;padding:4rem 2rem;min-height:500px;display:flex;align-items:center;position:relative;overflow:hidden}
+  .hero-enhanced::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></svg>') repeat;background-size:100px 100px}
+  .hero-content{max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;position:relative;z-index:1}
+  .hero-text h1{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;letter-spacing:3px;margin-bottom:1rem;line-height:1.1}
+  .hero-text p{color:#aad4ee;font-size:1.2rem;margin-bottom:2rem}
+  .hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+  .stat{text-align:center;padding:1rem;background:rgba(255,255,255,0.1);border-radius:10px;backdrop-filter:blur(10px)}
+  .stat .number{display:block;font-size:2rem;font-weight:700;color:#7ec8e3}
+  .stat .label{font-size:0.85rem;color:#fff;opacity:0.9}
+  .hero-cta{display:flex;gap:1rem;flex-wrap:wrap}
+  .btn-primary{background:var(--verde);color:#fff;border:none;padding:1rem 2rem;border-radius:8px;font-size:1.1rem;font-weight:500;cursor:pointer;transition:0.3s}
+  .btn-primary:hover{background:#0a6339;transform:translateY(-2px)}
+  .btn-secondary{background:transparent;color:#fff;border:2px solid #fff;padding:1rem 2rem;border-radius:8px;font-size:1.1rem;font-weight:500;cursor:pointer;transition:0.3s}
+  .btn-secondary:hover{background:#fff;color:var(--azul)}
+  .hero-image{text-align:center}
+  .hero-image img{max-width:100%;height:auto;border-radius:15px;box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+
+  /* ABOUT SECTION */
+  .about-section{padding:5rem 2rem;background:#f8f9fa}
+  .about-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+  .about-content h2{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--azul);margin-bottom:1.5rem}
+  .about-content p{font-size:1.1rem;line-height:1.8;color:var(--muted);margin-bottom:2rem}
+  .values{display:grid;gap:1.5rem}
+  .value{display:flex;gap:1rem;padding:1.5rem;background:#fff;border-radius:10px;box-shadow:0 4px 15px rgba(0,0,0,0.05);transition:0.3s}
+  .value:hover{transform:translateY(-3px);box-shadow:0 8px 25px rgba(0,0,0,0.1)}
+  .value-icon{font-size:2.5rem;width:60px;height:60px;display:flex;align-items:center;justify-content:center;background:var(--celeste);border-radius:12px}
+  .value h3{font-size:1.2rem;color:var(--azul);margin-bottom:0.5rem}
+  .value p{font-size:0.95rem;color:var(--muted);margin:0}
+  .about-image{position:relative}
+  .about-image img{width:100%;border-radius:15px;box-shadow:0 20px 40px rgba(0,0,0,0.15)}
+  .experience-badge{position:absolute;top:2rem;right:2rem;background:var(--verde);color:#fff;padding:1.5rem;border-radius:15px;text-align:center;box-shadow:0 10px 30px rgba(13,124,74,0.3)}
+  .experience-badge .years{display:block;font-size:2.5rem;font-weight:700}
+  .experience-badge .text{font-size:0.9rem}
+
+  /* TESTIMONIALS */
+  .testimonials-section{padding:5rem 2rem;background:var(--azul);color:#fff}
+  .testimonials-section h2{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;text-align:center;margin-bottom:3rem}
+  .testimonials-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;margin-bottom:3rem}
+  .testimonial{background:rgba(255,255,255,0.1);padding:2rem;border-radius:15px;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.2)}
+  .stars{font-size:1.2rem;margin-bottom:1rem}
+  .testimonial-text{font-size:1.1rem;line-height:1.6;margin-bottom:1.5rem;font-style:italic}
+  .testimonial-author{display:flex;align-items:center;gap:1rem}
+  .testimonial-author img{width:50px;height:50px;border-radius:50%;object-fit:cover}
+  .testimonial-author .name{font-weight:600}
+  .testimonial-author .role{font-size:0.85rem;opacity:0.8}
+  .testimonials-stats{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(2,1fr);gap:2rem;text-align:center}
+  .testimonials-stats .stat{background:rgba(255,255,255,0.1);padding:2rem;border-radius:15px;backdrop-filter:blur(10px)}
+  .testimonials-stats .number{font-size:3rem;font-weight:700;color:#7ec8e3}
+  .testimonials-stats .label{font-size:1rem;opacity:0.9}
+
+  /* BENEFITS */
+  .benefits-section{padding:5rem 2rem;background:#fff}
+  .benefits-section h2{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--azul);text-align:center;margin-bottom:3rem}
+  .benefits-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+  .benefit{text-align:center;padding:2rem;background:var(--gris);border-radius:15px;transition:0.3s}
+  .benefit:hover{transform:translateY(-5px);box-shadow:0 10px 30px rgba(0,0,0,0.1)}
+  .benefit-icon{font-size:3rem;margin-bottom:1rem}
+  .benefit h3{font-size:1.3rem;color:var(--azul);margin-bottom:0.5rem}
+  .benefit p{color:var(--muted);font-size:1rem}
+
+  /* PRODUCT CARDS ENHANCED */
+  .card-enhanced{border:1px solid var(--borde);border-radius:15px;overflow:hidden;transition:0.3s;background:#fff;position:relative}
+  .card-enhanced:hover{transform:translateY(-5px);box-shadow:0 15px 40px rgba(0,0,0,0.15)}
+  .product-badges{position:absolute;top:10px;left:10px;z-index:2;display:flex;flex-direction:column;gap:5px}
+  .badge-new{background:var(--verde);color:#fff;padding:4px 8px;border-radius:20px;font-size:0.75rem;font-weight:600}
+  .badge-sale{background:var(--danger);color:#fff;padding:4px 8px;border-radius:20px;font-size:0.75rem;font-weight:600}
+  .card-img-enhanced{background:var(--celeste);height:180px;display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;overflow:hidden}
+  .quick-actions{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:5px;opacity:0;transition:0.3s}
+  .card-enhanced:hover .quick-actions{opacity:1}
+  .quick-action{background:rgba(255,255,255,0.9);border:none;width:35px;height:35px;border-radius:50%;cursor:pointer;font-size:0.9rem;transition:0.3s}
+  .quick-action:hover{background:#fff;transform:scale(1.1)}
+  .product-rating{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem}
+  .product-rating .stars{font-size:0.9rem;color:#ffa500}
+  .product-rating .reviews{font-size:0.8rem;color:var(--muted)}
+  .price-enhanced{display:flex;align-items:center;gap:0.5rem}
+  .current-price{font-weight:600;color:var(--azul);font-size:1.2rem}
+  .original-price{text-decoration:line-through;color:var(--muted);font-size:0.9rem}
+
+  /* AUTH MODAL */
+  .auth-modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:600;display:none;align-items:center;justify-content:center}
+  .auth-modal.open{display:flex}
+  .auth-content{background:#fff;border-radius:15px;padding:2.5rem;width:450px;max-width:95vw;max-height:90vh;overflow-y:auto}
+  .auth-header{text-align:center;margin-bottom:2rem}
+  .auth-header h2{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--azul);margin-bottom:0.5rem}
+  .auth-tabs{display:flex;margin-bottom:2rem;border-bottom:1px solid var(--borde)}
+  .auth-tab{flex:1;padding:1rem;background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;font-size:1rem;transition:0.3s}
+  .auth-tab.active{border-bottom-color:var(--azul);color:var(--azul)}
+  .auth-form{display:none}
+  .auth-form.active{display:block}
+  .social-login{display:grid;gap:1rem;margin-bottom:1.5rem}
+  .social-btn{display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.8rem;border:1px solid var(--borde);border-radius:8px;background:#fff;cursor:pointer;transition:0.3s}
+  .social-btn:hover{background:var(--gris)}
+  .divider{text-align:center;margin:1.5rem 0;position:relative}
+  .divider::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--borde)}
+  .divider span{background:#fff;padding:0 1rem;color:var(--muted)}
+
+  /* USER DASHBOARD */
+  .user-dashboard{display:none;padding:2rem;max-width:1100px;margin:0 auto}
+  .user-dashboard.active{display:block}
+  .dashboard-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;padding-bottom:1rem;border-bottom:2px solid var(--celeste)}
+  .dashboard-header h2{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--azul)}
+  .user-info{display:flex;align-items:center;gap:1rem}
+  .user-avatar{width:50px;height:50px;border-radius:50%;background:var(--azul);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:600}
+  .dashboard-grid{display:grid;grid-template-columns:1fr 2fr;gap:2rem}
+  .dashboard-sidebar{background:var(--gris);padding:1.5rem;border-radius:10px}
+  .sidebar-menu{display:grid;gap:0.5rem}
+  .sidebar-btn{display:flex;align-items:center;gap:0.5rem;padding:0.8rem;background:transparent;border:none;border-radius:6px;cursor:pointer;text-align:left;transition:0.3s}
+  .sidebar-btn:hover{background:var(--borde)}
+  .sidebar-btn.active{background:var(--azul);color:#fff}
+  .dashboard-content{background:#fff;padding:2rem;border-radius:10px;border:1px solid var(--borde)}
+  .orders-list{display:grid;gap:1rem}
+  .order-card{padding:1.5rem;border:1px solid var(--borde);border-radius:8px;transition:0.3s}
+  .order-card:hover{box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+  .order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem}
+  .order-number{font-weight:600;color:var(--azul)}
+  .order-status{padding:4px 8px;border-radius:20px;font-size:0.8rem;font-weight:500}
+  .status-pending{background:#fff3cd;color:#856404}
+  .status-completed{background:#d4edda;color:#155724}
+  .status-cancelled{background:#f8d7da;color:#721c24}
+
+  /* REVIEWS SYSTEM */
+  .reviews-section{padding:2rem;background:#fff;border-top:1px solid var(--borde)}
+  .reviews-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+  .reviews-summary{display:flex;align-items:center;gap:2rem}
+  .rating-large{font-size:3rem;font-weight:700;color:var(--azul)}
+  .rating-stars{font-size:1.5rem;color:#ffa500}
+  .rating-count{color:var(--muted)}
+  .write-review-btn{background:var(--azul);color:#fff;border:none;padding:0.8rem 1.5rem;border-radius:8px;cursor:pointer;font-family:'DM Sans',sans-serif;transition:0.3s}
+  .write-review-btn:hover{background:var(--azul-claro)}
+  .reviews-list{display:grid;gap:1.5rem}
+  .review-card{padding:1.5rem;border:1px solid var(--borde);border-radius:10px;transition:0.3s}
+  .review-card:hover{box-shadow:0 4px 15px rgba(0,0,0,0.1)}
+  .review-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem}
+  .review-author{display:flex;align-items:center;gap:1rem}
+  .review-avatar{width:40px;height:40px;border-radius:50%;background:var(--celeste);display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--azul)}
+  .review-info{display:flex;flex-direction:column}
+  .review-name{font-weight:600}
+  .review-date{font-size:0.85rem;color:var(--muted)}
+  .review-rating{font-size:1rem;color:#ffa500;margin-bottom:0.5rem}
+  .review-text{line-height:1.6;color:var(--texto)}
+  .review-verified{display:inline-flex;align-items:center;gap:0.25rem;font-size:0.8rem;color:var(--verde);margin-top:0.5rem}
+  .review-modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:700;display:none;align-items:center;justify-content:center}
+  .review-modal.open{display:flex}
+  .review-content{background:#fff;border-radius:15px;padding:2rem;width:500px;max-width:95vw;max-height:90vh;overflow-y:auto}
+  .review-form-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--azul);margin-bottom:1.5rem}
+  .rating-input{display:flex;gap:0.5rem;margin-bottom:1rem}
+  .star-input{font-size:2rem;color:#ddd;cursor:pointer;transition:0.2s}
+  .star-input:hover,.star-input.active{color:#ffa500}
+
+  /* WHATSAPP FLOATING BUTTON */
+  .wsp-float-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 999;
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+  }
+  
+  .wsp-float-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(37, 211, 102, 0.5);
+    background: #128c7e;
+  }
+  
+  .wsp-float-btn svg {
+    width: 32px;
+    height: 32px;
+    fill: white;
+  }
+  
+  @keyframes pulse {
+    0% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3); }
+    50% { box-shadow: 0 4px 30px rgba(37, 211, 102, 0.6); }
+    100% { box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3); }
+  }
+  
+  .wsp-tooltip {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  
+  .wsp-float-btn:hover .wsp-tooltip {
+    opacity: 1;
+  }
+  
+  /* RESPONSIVE */
+  @media (max-width:768px){
+    .wsp-float-btn {
+      bottom: 1rem;
+      right: 1rem;
+      width: 50px;
+      height: 50px;
+    }
+    
+    .wsp-float-btn svg {
+      width: 26px;
+      height: 26px;
+    }
+  }
+
+  footer{background:var(--azul);color:#fff;margin-top:3rem}
+.footer-content{max-width:1200px;margin:0 auto;padding:3rem 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:2rem}
+.footer-section h4{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:#fff;margin-bottom:1rem;letter-spacing:1px}
+.footer-section p{color:#aad4ee;line-height:1.6;margin-bottom:1.5rem}
+.footer-contact{color:#aad4ee;line-height:1.8}
+.footer-contact strong{color:#fff}
+.footer-section ul{list-style:none;padding:0}
+.footer-section ul li{margin-bottom:0.5rem}
+.footer-section ul li a{color:#aad4ee;text-decoration:none;transition:color 0.3s}
+.footer-section ul li a:hover{color:#fff;text-decoration:underline}
+.footer-bottom{background:rgba(0,0,0,0.2);border-top:1px solid rgba(255,255,255,0.1)}
+.footer-bottom-content{max-width:1200px;margin:0 auto;padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center}
+.footer-copyright{color:#fff;font-size:0.9rem}
+.footer-social{display:flex;gap:1rem}
+.footer-social a{color:#aad4ee;text-decoration:none;padding:0.5rem;border-radius:4px;transition:all 0.3s}
+.footer-social a:hover{color:#fff;background:rgba(255,255,255,0.1)}
+@media (max-width:768px){
+  .footer-content{grid-template-columns:1fr;padding:2rem 1rem}
+  .footer-bottom-content{flex-direction:column;gap:1rem;text-align:center}
+}
   footer strong{color:#fff}
 </style>
 </head>
@@ -120,6 +453,10 @@
 <header>
   <div class="logo">HYGIA<span>.</span></div>
   <div class="header-right">
+    <button class="btn-login" onclick="openAuthModal()" id="loginBtn">👤 Iniciar Sesión</button>
+    <button class="btn-user-profile" onclick="openDashboard()" id="userProfileBtn" style="display:none;">
+      <div class="user-avatar-small" id="userAvatarSmall">U</div>
+    </button>
     <button class="btn-admin" onclick="toggleAdmin()">⚙ Admin</button>
     <button class="btn-cart" onclick="abrirCarrito()">
       🛒 Carrito
@@ -138,24 +475,242 @@
 </nav>
 
 <div id="tienda">
-  <div class="hero">
-    <h1>Química Hygia</h1>
-    <p>Somos fabricantes • Dr Lorenzo Guarracino 2268, Lanús Este</p>
+  <div class="hero-enhanced">
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>Química Hygia: Calidad que Confías</h1>
+        <p>Fabricantes directos con más de 20 años de experiencia en productos de limpieza y cuidado personal</p>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="number">10,000+</span>
+            <span class="label">Clientes Felices</span>
+          </div>
+          <div class="stat">
+            <span class="number">100%</span>
+            <span class="label">Productos Garantizados</span>
+          </div>
+          <div class="stat">
+            <span class="number">24h</span>
+            <span class="label">Despacho Rápido</span>
+          </div>
+        </div>
+        <div class="hero-cta">
+          <button class="btn-primary" onclick="scrollToProducts()">Comprar Ahora</button>
+          <button class="btn-secondary" onclick="scrollToProducts()">Ver Catálogo</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="https://picsum.photos/seed/hygia-products/500/400.jpg" alt="Nuestros productos">
+      </div>
+    </div>
   </div>
   <main>
     <div id="productosCont"></div>
   </main>
 </div>
 
+<!-- SECCIÓN QUIÉNES SOMOS -->
+<section class="about-section">
+  <div class="about-grid">
+    <div class="about-content">
+      <h2>Conoce a Química Hygia</h2>
+      <p>Somos una empresa familiar con más de 20 años de experiencia en la fabricación de productos de limpieza y cuidado personal del más alta calidad. Nuestra misión es llevar productos excelentes directamente a tu hogar, sin intermediarios.</p>
+      <div class="values">
+        <div class="value">
+          <div class="value-icon">🏭</div>
+          <div>
+            <h3>Fabricación Propia</h3>
+            <p>Control total de calidad desde la materia prima hasta el producto final.</p>
+          </div>
+        </div>
+        <div class="value">
+          <div class="value-icon">🌱</div>
+          <div>
+            <h3>Compromiso Ambiental</h3>
+            <p>Fórmulas biodegradables y procesos sostenibles.</p>
+          </div>
+        </div>
+        <div class="value">
+          <div class="value-icon">🤝</div>
+          <div>
+            <h3>Atención Personalizada</h3>
+            <p>Asesoramiento experto para cada necesidad específica.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-image">
+      <img src="https://picsum.photos/seed/factory-hygia/500/400.jpg" alt="Nuestra fábrica">
+      <div class="experience-badge">
+        <span class="years">20+</span>
+        <span class="text">Años de Experiencia</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN TESTIMONIOS -->
+<section class="testimonials-section">
+  <h2>Lo que dicen nuestros clientes</h2>
+  <div class="testimonials-grid">
+    <div class="testimonial">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p class="testimonial-text">"Excelente calidad y servicio. Llevo años comprando aquí y nunca me han defraudado. Los productos son de primera y el servicio es impecable."</p>
+      <div class="testimonial-author">
+        <img src="https://picsum.photos/seed/maria-gonzalez/50/50.jpg" alt="María González">
+        <div>
+          <div class="name">María González</div>
+          <div class="role">Dueña de lavandería</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p class="testimonial-text">"Como fabricante directo, la calidad es superior y los precios son imbatibles. Totalmente recomendado para negocios y hogar."</p>
+      <div class="testimonial-author">
+        <img src="https://picsum.photos/seed/carlos-rodriguez/50/50.jpg" alt="Carlos Rodríguez">
+        <div>
+          <div class="name">Carlos Rodríguez</div>
+          <div class="role">Gerente de supermercado</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial">
+      <div class="stars">⭐⭐⭐⭐⭐</div>
+      <p class="testimonial-text">"La atención al cliente es excepcional. Me ayudaron a elegir los productos perfectos para mi negocio y el resultado fue excelente."</p>
+      <div class="testimonial-author">
+        <img src="https://picsum.photos/seed/ana-martinez/50/50.jpg" alt="Ana Martínez">
+        <div>
+          <div class="name">Ana Martínez</div>
+          <div class="role">Emprendedora</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="testimonials-stats">
+    <div class="stat">
+      <span class="number">4.9/5</span>
+      <span class="label">Calificación Promedio</span>
+    </div>
+    <div class="stat">
+      <span class="number">500+</span>
+      <span class="label">Reseñas Verificadas</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN BENEFICIOS -->
+<section class="benefits-section">
+  <h2>Por qué elegir Química Hygia</h2>
+  <div class="benefits-grid">
+    <div class="benefit">
+      <div class="benefit-icon">🚚</div>
+      <h3>Envío Gratis</h3>
+      <p>En compras superiores a $15.000</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">💰</div>
+      <h3>Precios de Fábrica</h3>
+      <p>Sin intermediarios, ahorro garantizado</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">🔄</div>
+      <h3>Devoluciones Fáciles</h3>
+      <p>30 días para cambios y devoluciones</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">📞</div>
+      <h3>Soporte Técnico</h3>
+      <p>Asesoramiento especializado gratuito</p>
+    </div>
+  </div>
+</section>
+
 <div class="admin-panel" id="adminPanel">
   <div class="admin-header">
-    <h2>Panel de Administración</h2>
-    <button class="btn-nuevo" onclick="abrirModalNuevo()">+ Nuevo Producto</button>
+    <div class="admin-title-section">
+      <h2>Panel de Administración</h2>
+      <p class="admin-subtitle">Gestión completa de productos y tienda</p>
+    </div>
+    <div class="admin-actions">
+      <button class="btn-nuevo" onclick="abrirModalNuevo()">+ Nuevo Producto</button>
+      <button class="btn-export" onclick="exportarProductos()">📊 Exportar</button>
+    </div>
   </div>
-  <table class="admin-table">
-    <thead><tr><th>Producto</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr></thead>
-    <tbody id="adminTabla"></tbody>
-  </table>
+  
+  <!-- Estadísticas Admin -->
+  <div class="admin-stats">
+    <div class="stat-card">
+      <div class="stat-number" id="totalProductos">0</div>
+      <div class="stat-label">Total Productos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="totalStock">0</div>
+      <div class="stat-label">Stock Total</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="productosAgotados">0</div>
+      <div class="stat-label">Agotados</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="valorInventario">$0</div>
+      <div class="stat-label">Valor Inventario</div>
+    </div>
+  </div>
+
+  <!-- Filtros y Búsqueda -->
+  <div class="admin-filters">
+    <div class="filter-group">
+      <input type="text" id="buscarProducto" placeholder="🔍 Buscar producto..." onkeyup="filtrarProductos()">
+    </div>
+    <div class="filter-group">
+      <select id="filtroCategoria" onchange="filtrarProductos()">
+        <option value="">Todas las categorías</option>
+        <option value="lavado">Lavado de Ropa</option>
+        <option value="limpieza">Limpieza</option>
+        <option value="papel">Papel</option>
+        <option value="accesorios">Accesorios</option>
+        <option value="personal">Cuidado Personal</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <select id="filtroStock" onchange="filtrarProductos()">
+        <option value="">Todo el stock</option>
+        <option value="constock">Con stock</option>
+        <option value="sinstock">Sin stock</option>
+        <option value="bajo">Stock bajo (&lt;10)</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Tabla de Productos -->
+  <div class="admin-table-container">
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th onclick="ordenarTabla('nombre')" style="cursor: pointer;">Producto ↕</th>
+          <th onclick="ordenarTabla('categoria')" style="cursor: pointer;">Categoría ↕</th>
+          <th onclick="ordenarTabla('precio')" style="cursor: pointer;">Precio ↕</th>
+          <th onclick="ordenarTabla('stock')" style="cursor: pointer;">Stock ↕</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="adminTabla"></tbody>
+    </table>
+  </div>
+
+  <!-- Acciones en lote -->
+  <div class="admin-batch-actions" id="batchActions" style="display: none;">
+    <div class="batch-info">
+      <span id="selectedCount">0</span> productos seleccionados
+    </div>
+    <div class="batch-buttons">
+      <button class="btn-batch" onclick="eliminarSeleccionados()">🗑️ Eliminar</button>
+      <button class="btn-batch" onclick="actualizarStockSeleccionado()">📦 Actualizar Stock</button>
+      <button class="btn-batch" onclick="deseleccionarTodo()">✖ Deseleccionar</button>
+    </div>
+  </div>
 </div>
 
 <!-- CARRITO -->
@@ -167,9 +722,26 @@
   </div>
   <div class="cart-items" id="cartItems"></div>
   <div class="cart-footer" id="cartFooter" style="display:none">
+    <div class="cart-shipping-progress">
+      <div class="shipping-bar">
+        <div class="shipping-fill" id="shippingFill"></div>
+      </div>
+      <div class="shipping-text" id="shippingText">Agrega $15.000 más para envío gratis</div>
+    </div>
+    
+    <div class="cart-recommendations" id="cartRecommendations" style="display:none">
+      <div class="rec-title">🎯 Completá tu compra</div>
+      <div class="rec-items" id="recItems"></div>
+    </div>
+    
     <div class="cart-total"><span>Total:</span><span id="cartTotal">$0</span></div>
     <button class="btn-comprar" onclick="pedirPorWsp()">Finalizar pedido</button>
-    <button class="btn-wsp" onclick="pedirPorWsp()">📲 Pedir por WhatsApp</button>
+    <button class="btn-wsp" onclick="pedirPorWsp()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle; margin-right: 4px;">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.149-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.123-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+      Pedir por WhatsApp
+    </button>
   </div>
 </div>
 
@@ -218,14 +790,207 @@
   </div>
 </div>
 
+<!-- AUTH MODAL -->
+<div class="auth-modal" id="authModal">
+  <div class="auth-content">
+    <div class="auth-header">
+      <h2>Bienvenido a Hygia</h2>
+      <p>Inicia sesión o regístrate para continuar</p>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuthTab('login')">Iniciar Sesión</button>
+      <button class="auth-tab" onclick="switchAuthTab('register')">Registrarse</button>
+    </div>
+    
+    <!-- LOGIN FORM -->
+    <div class="auth-form active" id="loginForm">
+      <div class="social-login">
+        <button class="social-btn" onclick="loginWithGoogle()">
+          <span>🔵</span> Continuar con Google
+        </button>
+        <button class="social-btn" onclick="loginWithFacebook()">
+          <span>📘</span> Continuar con Facebook
+        </button>
+      </div>
+      <div class="divider">
+        <span>O continúa con email</span>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="tu@email.com">
+      </div>
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" id="loginPassword" placeholder="••••••••">
+      </div>
+      <div class="form-group">
+        <button class="btn-primary" style="width:100%" onclick="signIn()">Iniciar Sesión</button>
+      </div>
+      <div style="text-align:center">
+        <a href="#" onclick="resetPassword()" style="color:var(--azul);text-decoration:none">¿Olvidaste tu contraseña?</a>
+      </div>
+    </div>
+    
+    <!-- REGISTER FORM -->
+    <div class="auth-form" id="registerForm">
+      <div class="social-login">
+        <button class="social-btn" onclick="loginWithGoogle()">
+          <span>🔵</span> Continuar con Google
+        </button>
+        <button class="social-btn" onclick="loginWithFacebook()">
+          <span>📘</span> Continuar con Facebook
+        </button>
+      </div>
+      <div class="divider">
+        <span>O regístrate con email</span>
+      </div>
+      <div class="form-group">
+        <label>Nombre completo</label>
+        <input type="text" id="registerName" placeholder="Tu nombre">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="registerEmail" placeholder="tu@email.com">
+      </div>
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="tel" id="registerPhone" placeholder="+54 11 1234-5678">
+      </div>
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" id="registerPassword" placeholder="Mínimo 6 caracteres">
+      </div>
+      <div class="form-group">
+        <button class="btn-primary" style="width:100%" onclick="signUp()">Crear Cuenta</button>
+      </div>
+    </div>
+    
+    <button class="btn-close" onclick="closeAuthModal()" style="position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:#999;font-size:1.5rem;cursor:pointer">✕</button>
+  </div>
+</div>
+
+<!-- USER DASHBOARD -->
+<div class="user-dashboard" id="userDashboard">
+  <div class="dashboard-header">
+    <h2>Mi Panel</h2>
+    <div class="user-info">
+      <div class="user-avatar" id="userAvatar">U</div>
+      <div>
+        <div id="userName">Usuario</div>
+        <button onclick="logout()" style="background:transparent;border:none;color:var(--muted);cursor:pointer;text-decoration:underline">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+  <div class="dashboard-grid">
+    <div class="dashboard-sidebar">
+      <div class="sidebar-menu">
+        <button class="sidebar-btn active" onclick="showDashboardSection('orders')">
+          <span>📦</span> Mis Pedidos
+        </button>
+        <button class="sidebar-btn" onclick="showDashboardSection('profile')">
+          <span>👤</span> Mi Perfil
+        </button>
+        <button class="sidebar-btn" onclick="showDashboardSection('addresses')">
+          <span>🏠</span> Direcciones
+        </button>
+        <button class="sidebar-btn" onclick="showDashboardSection('wishlist')">
+          <span>❤️</span> Favoritos
+        </button>
+      </div>
+    </div>
+    <div class="dashboard-content" id="dashboardContent">
+      <h3>Mis Pedidos</h3>
+      <div class="orders-list" id="ordersList">
+        <div class="order-card">
+          <div class="order-header">
+            <span class="order-number">#ORD-001</span>
+            <span class="order-status status-completed">Completado</span>
+          </div>
+          <div>Fecha: 15/03/2024</div>
+          <div>Total: $5.600</div>
+        </div>
+        <div class="order-card">
+          <div class="order-header">
+            <span class="order-number">#ORD-002</span>
+            <span class="order-status status-pending">Pendiente</span>
+          </div>
+          <div>Fecha: 20/03/2024</div>
+          <div>Total: $3.200</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW MODAL -->
+<div class="review-modal" id="reviewModal">
+  <div class="review-content">
+    <h2 class="review-form-title">Escribir una Reseña</h2>
+    <div class="form-group">
+      <label>Calificación</label>
+      <div class="rating-input" id="ratingInput">
+        <span class="star-input" data-rating="1" onclick="setRating(1)">⭐</span>
+        <span class="star-input" data-rating="2" onclick="setRating(2)">⭐</span>
+        <span class="star-input" data-rating="3" onclick="setRating(3)">⭐</span>
+        <span class="star-input" data-rating="4" onclick="setRating(4)">⭐</span>
+        <span class="star-input" data-rating="5" onclick="setRating(5)">⭐</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Título de la reseña</label>
+      <input type="text" id="reviewTitle" placeholder="Ej: Excelente producto">
+    </div>
+    <div class="form-group">
+      <label>Comentario</label>
+      <textarea id="reviewComment" rows="4" placeholder="Cuéntanos tu experiencia con este producto..."></textarea>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeReviewModal()">Cancelar</button>
+      <button class="btn-save" onclick="submitReview()">Publicar Reseña</button>
+    </div>
+    <button class="btn-close" onclick="closeReviewModal()" style="position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:#999;font-size:1.5rem;cursor:pointer">✕</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
-<footer>
+<!-- WHATSAPP FLOATING BUTTON -->
+<div class="wsp-float-btn" onclick="contactarWhatsApp()">
+  <div class="wsp-tooltip">¡Hola! Quiero hacer una consulta</div>
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.149-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.123-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+</div>
+
   <strong>Química Hygia</strong> — Somos Fabricantes<br>
   Dr Lorenzo Guarracino 2268, Lanús Este 1824
 </footer>
 
+<!-- ========================= -->
+<!-- SUPABASE SDK -->
+<!-- ========================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+/* =========================
+   SUPABASE
+========================= */
+
+/* IMPORTANTE:
+   ASEGURATE DE NO TENER OTRO:
+   const supabase = ...
+   en otra parte del código
+*/
+
+// Supabase desactivado temporalmente para evitar errores
+// Para activar: reemplaza con tus credenciales reales
+const supabaseClient = null;
+
+/* =========================
+   VARIABLES GLOBALES
+========================= */
+
 let productos = [
   {id:1,nombre:"Jabón Líquido",cat:"lavado",pres:"5 litros",precio:2800,stock:50,emoji:"🧴",tipo:"Tipo Ariel o Skip"},
   {id:2,nombre:"Suavizante",cat:"lavado",pres:"5 litros",precio:2600,stock:40,emoji:"🌸",tipo:"Tipo Vivere o Comfort"},
@@ -250,20 +1015,271 @@ let productos = [
   {id:21,nombre:"Acondicionador",cat:"personal",pres:"1 litro",precio:2400,stock:40,emoji:"💇",tipo:"Tipo Dove o Sedal"},
 ];
 
-let carrito = [];
 let editId = null;
 let catActiva = 'todos';
-
 const CATS = {lavado:"Lavado de Ropa",limpieza:"Limpieza",papel:"Papel",accesorios:"Accesorios",personal:"Cuidado Personal"};
+
+/* =========================
+   FUNCIONES GLOBALES
+========================= */
+
+/* SOLUCION abrirCarrito */
+
+window.abrirCarrito = function () {
+  document.getElementById('cartOverlay').classList.add('open');
+  document.getElementById('cartPanel').classList.add('open');
+};
+
+
+/* SOLUCION cerrarCarrito */
+
+window.cerrarCarrito = function () {
+  document.getElementById('cartOverlay').classList.remove('open');
+  document.getElementById('cartPanel').classList.remove('open');
+};
+
+
+/* SOLUCION scrollToProducts */
+
+window.scrollToProducts = function () {
+  const productos = document.getElementById('productosCont');
+
+  if (productos) {
+    productos.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  }
+};
+
+
+/* =========================
+   CARRITO LOCALSTORAGE
+========================= */
+
+let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+function guardarCarrito() {
+  localStorage.setItem('carrito', JSON.stringify(carrito));
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+window.mostrarToast = function (msg) {
+  const t = document.getElementById('toast');
+
+  if (!t) return;
+
+  t.textContent = msg;
+
+  t.classList.add('show');
+
+  setTimeout(() => {
+    t.classList.remove('show');
+  }, 2500);
+};
+
+
+/* =========================
+   AGREGAR CARRITO
+========================= */
+
+window.agregarCarrito = function (id) {
+
+  const p = productos.find(x => x.id === id);
+
+  if (!p || p.stock <= 0) return;
+
+  const item = carrito.find(x => x.id === id);
+
+  if (item) {
+    item.qty++;
+  } else {
+    carrito.push({
+      id,
+      qty: 1
+    });
+  }
+
+  guardarCarrito();
+
+  renderCarrito();
+
+  mostrarToast(`${p.emoji} ${p.nombre} agregado`);
+};
+
+
+/* =========================
+   RENDER CARRITO
+========================= */
+
+window.renderCarrito = function () {
+
+  const items = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+  const count = document.getElementById('cartCount');
+
+  if (!items || !footer || !count) return;
+
+  const total = carrito.reduce((s, i) => {
+
+    const p = productos.find(x => x.id === i.id);
+
+    return s + (p ? p.precio * i.qty : 0);
+
+  }, 0);
+
+  count.textContent = carrito.reduce((s, i) => s + i.qty, 0);
+
+  if (!carrito.length) {
+
+    items.innerHTML = `
+      <div class="cart-empty">
+        Tu carrito está vacío 🛒
+      </div>
+    `;
+
+    footer.style.display = 'none';
+
+    return;
+  }
+
+  footer.style.display = 'block';
+
+  document.getElementById('cartTotal').textContent =
+    '$' + total.toLocaleString('es-AR');
+
+  items.innerHTML = carrito.map(i => {
+
+    const p = productos.find(x => x.id === i.id);
+
+    if (!p) return '';
+
+    return `
+      <div class="cart-item">
+
+        <div class="cart-item-icon">
+          ${p.emoji}
+        </div>
+
+        <div class="cart-item-info">
+
+          <div class="cart-item-name">
+            ${p.nombre}
+          </div>
+
+          <div class="cart-item-pres">
+            ${p.pres}
+          </div>
+
+          <div class="qty-ctrl">
+
+            <button
+              class="qty-btn"
+              onclick="cambiarQty(${p.id},-1)"
+            >
+              −
+            </button>
+
+            <span class="qty-num">
+              ${i.qty}
+            </span>
+
+            <button
+              class="qty-btn"
+              onclick="cambiarQty(${p.id},1)"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+
+          <div class="cart-item-total">
+            $${(p.precio * i.qty).toLocaleString('es-AR')}
+          </div>
+
+          <button
+            class="btn-rm"
+            onclick="quitarCarrito(${p.id})"
+          >
+            ✕
+          </button>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join('');
+};
+
+
+/* =========================
+   CAMBIAR CANTIDAD
+========================= */
+
+window.cambiarQty = function (id, delta) {
+
+  const item = carrito.find(x => x.id === id);
+
+  if (!item) return;
+
+  item.qty += delta;
+
+  if (item.qty <= 0) {
+    carrito = carrito.filter(x => x.id !== id);
+  }
+
+  guardarCarrito();
+
+  renderCarrito();
+};
+
+
+/* =========================
+   QUITAR PRODUCTO
+========================= */
+
+window.quitarCarrito = function (id) {
+
+  carrito = carrito.filter(x => x.id !== id);
+
+  guardarCarrito();
+
+  renderCarrito();
+};
+
+/* =========================
+   RENDER TIENDA
+========================= */
 
 function renderTienda(){
   const cont = document.getElementById('productosCont');
+  if (!cont) return;
+  
+  let productosFiltrados = catActiva === 'todos' 
+    ? productos 
+    : productos.filter(p => p.cat === catActiva);
+  
+  if (!productosFiltrados.length) {
+    cont.innerHTML = '<div style="text-align:center;padding:2rem;color:#666">No hay productos en esta categoría</div>';
+    return;
+  }
+  
+  // Agrupar por categoría
   const grupos = catActiva === 'todos'
-    ? [...new Set(productos.map(p=>p.cat))]
+    ? [...new Set(productosFiltrados.map(p=>p.cat))]
     : [catActiva];
-  cont.innerHTML = grupos.map(cat=>{
-    const prods = productos.filter(p=>p.cat===cat && (catActiva==='todos'||p.cat===cat));
-    if(!prods.length) return '';
+  
+  cont.innerHTML = grupos.map(cat => {
+    const prods = productosFiltrados.filter(p => p.cat === cat);
     return `<div>
       <div class="section-title">${CATS[cat]||cat}</div>
       <div class="productos-grid">${prods.map(tarjeta).join('')}</div>
@@ -273,14 +1289,18 @@ function renderTienda(){
 
 function tarjeta(p){
   const agotado = p.stock<=0;
-  return `<div class="card">
-    <div class="card-img">${p.emoji}</div>
+  return `<div class="card-enhanced">
+    <div class="card-img-enhanced">
+      ${p.emoji}
+    </div>
     <div class="card-body">
       <div class="card-cat">${CATS[p.cat]||p.cat}</div>
       <div class="card-name">${p.nombre}${p.tipo?` <span style="font-weight:300;font-size:0.82rem;color:var(--muted)">(${p.tipo})</span>`:''}</div>
       <div class="card-pres">${p.pres}</div>
       <div class="card-footer">
-        <div class="precio">$${p.precio.toLocaleString('es-AR')} <span>c/u</span></div>
+        <div class="price-enhanced">
+          <span class="current-price">$${p.precio.toLocaleString('es-AR')}</span>
+        </div>
         <button class="btn-add${agotado?' agotado':''}" onclick="${agotado?'':`agregarCarrito(${p.id})`}" ${agotado?'disabled':''}>
           ${agotado?'Agotado':'+ Agregar'}
         </button>
@@ -296,72 +1316,6 @@ function filtrar(cat, btn){
   renderTienda();
 }
 
-function agregarCarrito(id){
-  const p = productos.find(x=>x.id===id);
-  if(!p||p.stock<=0) return;
-  const item = carrito.find(x=>x.id===id);
-  if(item){ item.qty++; } else { carrito.push({id,qty:1}); }
-  renderCarrito();
-  mostrarToast(`${p.emoji} ${p.nombre} agregado`);
-}
-
-function renderCarrito(){
-  const items = document.getElementById('cartItems');
-  const footer = document.getElementById('cartFooter');
-  const count = document.getElementById('cartCount');
-  const total = carrito.reduce((s,i)=>{
-    const p=productos.find(x=>x.id===i.id);
-    return s+(p?p.precio*i.qty:0);
-  },0);
-  count.textContent = carrito.reduce((s,i)=>s+i.qty,0);
-  if(!carrito.length){
-    items.innerHTML='<div class="cart-empty">Tu carrito está vacío 🛒</div>';
-    footer.style.display='none';
-    return;
-  }
-  footer.style.display='block';
-  document.getElementById('cartTotal').textContent='$'+total.toLocaleString('es-AR');
-  items.innerHTML = carrito.map(i=>{
-    const p=productos.find(x=>x.id===i.id);
-    if(!p) return '';
-    return `<div class="cart-item">
-      <div class="cart-item-icon">${p.emoji}</div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${p.nombre}</div>
-        <div class="cart-item-pres">${p.pres}</div>
-        <div class="qty-ctrl">
-          <button class="qty-btn" onclick="cambiarQty(${p.id},-1)">−</button>
-          <span class="qty-num">${i.qty}</span>
-          <button class="qty-btn" onclick="cambiarQty(${p.id},1)">+</button>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
-        <div class="cart-item-total">$${(p.precio*i.qty).toLocaleString('es-AR')}</div>
-        <button class="btn-rm" onclick="quitarCarrito(${p.id})">✕</button>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function cambiarQty(id,delta){
-  const item=carrito.find(x=>x.id===id);
-  if(!item) return;
-  item.qty+=delta;
-  if(item.qty<=0) carrito=carrito.filter(x=>x.id!==id);
-  renderCarrito();
-}
-
-function quitarCarrito(id){ carrito=carrito.filter(x=>x.id!==id); renderCarrito(); }
-
-function abrirCarrito(){
-  document.getElementById('cartOverlay').classList.add('open');
-  document.getElementById('cartPanel').classList.add('open');
-}
-function cerrarCarrito(){
-  document.getElementById('cartOverlay').classList.remove('open');
-  document.getElementById('cartPanel').classList.remove('open');
-}
-
 function pedirPorWsp(){
   if(!carrito.length) return;
   let msg = '¡Hola! Quiero hacer un pedido:\n\n';
@@ -375,85 +1329,481 @@ function pedirPorWsp(){
   window.open(url,'_blank');
 }
 
-/* ADMIN */
-function toggleAdmin(){
-  const panel=document.getElementById('adminPanel');
-  const tienda=document.getElementById('tienda');
-  const nav=document.getElementById('navCats');
-  const isAdmin=panel.classList.contains('active');
-  panel.classList.toggle('active',!isAdmin);
-  tienda.style.display=isAdmin?'':'none';
-  nav.style.display=isAdmin?'':'none';
-  if(!isAdmin) renderAdmin();
-}
+/* =========================
+   ADMIN PANEL ENHANCED
+========================= */
 
-function renderAdmin(){
-  const tbody=document.getElementById('adminTabla');
-  tbody.innerHTML=productos.map(p=>`<tr>
-    <td>${p.emoji} ${p.nombre} <span style="color:var(--muted);font-size:0.8rem">(${p.pres})</span></td>
-    <td>${CATS[p.cat]||p.cat}</td>
-    <td>$${p.precio.toLocaleString('es-AR')}</td>
-    <td><span class="badge ${p.stock>0?'badge-stock':'badge-agotado'}">${p.stock>0?p.stock+' unid.':'Agotado'}</span></td>
-    <td>
-      <button class="btn-edit" onclick="editarProducto(${p.id})">Editar</button>
-      <button class="btn-del" onclick="eliminarProducto(${p.id})">Eliminar</button>
-    </td>
-  </tr>`).join('');
-}
+let productosFiltrados = [];
+let productosSeleccionados = new Set();
+let ordenActual = { campo: null, direccion: 'asc' };
 
-function abrirModalNuevo(){
-  editId=null;
-  document.getElementById('modalTitle').textContent='Nuevo Producto';
-  ['fNombre','fPres','fPrecio','fStock','fEmoji'].forEach(f=>document.getElementById(f).value='');
-  document.getElementById('fCat').value='lavado';
-  document.getElementById('modalBg').classList.add('open');
-}
-
-function editarProducto(id){
-  const p=productos.find(x=>x.id===id);
-  if(!p) return;
-  editId=id;
-  document.getElementById('modalTitle').textContent='Editar Producto';
-  document.getElementById('fNombre').value=p.nombre;
-  document.getElementById('fCat').value=p.cat;
-  document.getElementById('fPres').value=p.pres;
-  document.getElementById('fPrecio').value=p.precio;
-  document.getElementById('fStock').value=p.stock;
-  document.getElementById('fEmoji').value=p.emoji;
-  document.getElementById('modalBg').classList.add('open');
-}
-
-function cerrarModal(){ document.getElementById('modalBg').classList.remove('open'); }
-
-function guardarProducto(){
-  const nombre=document.getElementById('fNombre').value.trim();
-  const cat=document.getElementById('fCat').value;
-  const pres=document.getElementById('fPres').value.trim();
-  const precio=parseInt(document.getElementById('fPrecio').value)||0;
-  const stock=parseInt(document.getElementById('fStock').value)||0;
-  const emoji=document.getElementById('fEmoji').value||'📦';
-  if(!nombre){ alert('El nombre es obligatorio'); return; }
-  if(editId){
-    const p=productos.find(x=>x.id===editId);
-    Object.assign(p,{nombre,cat,pres,precio,stock,emoji});
+window.toggleAdmin = function() {
+  const panel = document.getElementById('adminPanel');
+  const tienda = document.getElementById('tienda');
+  // Secciones informativas que deben ocultarse en modo admin
+  const seccionesInformativas = [
+    document.querySelector('.about-section'),
+    document.querySelector('.testimonials-section'),
+    document.querySelector('.benefits-section')
+  ].filter(el => el !== null);
+  
+  if (panel.style.display === 'block') {
+    // Salir del modo admin
+    panel.style.display = 'none';
+    tienda.style.display = 'block';
+    // Mostrar todas las secciones informativas
+    seccionesInformativas.forEach(seccion => {
+      seccion.style.display = 'block';
+    });
   } else {
-    productos.push({id:Date.now(),nombre,cat,pres,precio,stock,emoji,tipo:''});
+    // Entrar al modo admin
+    panel.style.display = 'block';
+    tienda.style.display = 'none';
+    // Ocultar todas las secciones informativas
+    seccionesInformativas.forEach(seccion => {
+      seccion.style.display = 'none';
+    });
+    renderAdmin();
+    actualizarEstadisticasAdmin();
   }
+};
+
+window.renderAdmin = function() {
+  const tbody = document.getElementById('adminTabla');
+  if (!tbody) return;
+  
+  // Aplicar filtros y ordenamiento
+  productosFiltrados = aplicarFiltrosYOrden(productos);
+  
+  tbody.innerHTML = productosFiltrados.map(p => {
+    const estado = p.stock > 10 ? 'stock' : p.stock > 0 ? 'bajo' : 'agotado';
+    const estadoTexto = p.stock > 10 ? 'En Stock' : p.stock > 0 ? 'Stock Bajo' : 'Agotado';
+    const seleccionado = productosSeleccionados.has(p.id);
+    
+    return `
+      <tr class="${seleccionado ? 'selected' : ''}" data-id="${p.id}">
+        <td>
+          <input type="checkbox" class="admin-checkbox" ${seleccionado ? 'checked' : ''} onchange="toggleSeleccion(${p.id})">
+          <span style="margin-left: 8px;">${p.emoji} ${p.nombre}</span>
+        </td>
+        <td>${CATS[p.cat] || p.cat}</td>
+        <td>$${p.precio.toLocaleString('es-AR')}</td>
+        <td>
+          <span class="badge badge-${estado}">${p.stock} u</span>
+        </td>
+        <td>
+          <span class="badge badge-${estado}">${estadoTexto}</span>
+        </td>
+        <td>
+          <button class="btn-edit" onclick="editarProducto(${p.id})">Editar</button>
+          <button class="btn-del" onclick="eliminarProducto(${p.id})">Eliminar</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
+  
+  actualizarAccionesLote();
+};
+
+window.actualizarEstadisticasAdmin = function() {
+  const totalProductos = productos.length;
+  const totalStock = productos.reduce((sum, p) => sum + p.stock, 0);
+  const productosAgotados = productos.filter(p => p.stock === 0).length;
+  const valorInventario = productos.reduce((sum, p) => sum + (p.precio * p.stock), 0);
+  
+  document.getElementById('totalProductos').textContent = totalProductos;
+  document.getElementById('totalStock').textContent = totalStock;
+  document.getElementById('productosAgotados').textContent = productosAgotados;
+  document.getElementById('valorInventario').textContent = '$' + valorInventario.toLocaleString('es-AR');
+};
+
+window.aplicarFiltrosYOrden = function(productosLista) {
+  let filtrados = [...productosLista];
+  
+  // Filtro de búsqueda
+  const busqueda = document.getElementById('buscarProducto')?.value.toLowerCase();
+  if (busqueda) {
+    filtrados = filtrados.filter(p => 
+      p.nombre.toLowerCase().includes(busqueda) ||
+      p.pres.toLowerCase().includes(busqueda) ||
+      (p.tipo && p.tipo.toLowerCase().includes(busqueda))
+    );
+  }
+  
+  // Filtro de categoría
+  const categoria = document.getElementById('filtroCategoria')?.value;
+  if (categoria) {
+    filtrados = filtrados.filter(p => p.cat === categoria);
+  }
+  
+  // Filtro de stock
+  const stockFiltro = document.getElementById('filtroStock')?.value;
+  if (stockFiltro === 'constock') {
+    filtrados = filtrados.filter(p => p.stock > 0);
+  } else if (stockFiltro === 'sinstock') {
+    filtrados = filtrados.filter(p => p.stock === 0);
+  } else if (stockFiltro === 'bajo') {
+    filtrados = filtrados.filter(p => p.stock > 0 && p.stock <= 10);
+  }
+  
+  // Ordenamiento
+  if (ordenActual.campo) {
+    filtrados.sort((a, b) => {
+      let aVal = a[ordenActual.campo];
+      let bVal = b[ordenActual.campo];
+      
+      if (ordenActual.campo === 'categoria') {
+        aVal = CATS[a.cat] || a.cat;
+        bVal = CATS[b.cat] || b.cat;
+      }
+      
+      if (typeof aVal === 'string') {
+        aVal = aVal.toLowerCase();
+        bVal = bVal.toLowerCase();
+      }
+      
+      if (ordenActual.direccion === 'asc') {
+        return aVal > bVal ? 1 : -1;
+      } else {
+        return aVal < bVal ? 1 : -1;
+      }
+    });
+  }
+  
+  return filtrados;
+};
+
+window.filtrarProductos = function() {
+  renderAdmin();
+};
+
+window.ordenarTabla = function(campo) {
+  if (ordenActual.campo === campo) {
+    ordenActual.direccion = ordenActual.direccion === 'asc' ? 'desc' : 'asc';
+  } else {
+    ordenActual.campo = campo;
+    ordenActual.direccion = 'asc';
+  }
+  renderAdmin();
+};
+
+window.toggleSeleccion = function(id) {
+  if (productosSeleccionados.has(id)) {
+    productosSeleccionados.delete(id);
+  } else {
+    productosSeleccionados.add(id);
+  }
+  renderAdmin();
+};
+
+window.actualizarAccionesLote = function() {
+  const batchActions = document.getElementById('batchActions');
+  const selectedCount = document.getElementById('selectedCount');
+  
+  if (productosSeleccionados.size > 0) {
+    batchActions.style.display = 'flex';
+    selectedCount.textContent = productosSeleccionados.size;
+  } else {
+    batchActions.style.display = 'none';
+  }
+};
+
+window.deseleccionarTodo = function() {
+  productosSeleccionados.clear();
+  renderAdmin();
+};
+
+window.eliminarSeleccionados = function() {
+  if (confirm(`¿Estás seguro de eliminar ${productosSeleccionados.size} productos?`)) {
+    productos = productos.filter(p => !productosSeleccionados.has(p.id));
+    productosSeleccionados.clear();
+    renderAdmin();
+    renderTienda();
+    actualizarEstadisticasAdmin();
+    mostrarToast('Productos eliminados');
+  }
+};
+
+window.actualizarStockSeleccionado = function() {
+  const nuevoStock = prompt('Ingrese el nuevo stock para todos los productos seleccionados:');
+  if (nuevoStock !== null && !isNaN(nuevoStock)) {
+    const stock = parseInt(nuevoStock);
+    productos.forEach(p => {
+      if (productosSeleccionados.has(p.id)) {
+        p.stock = stock;
+      }
+    });
+    productosSeleccionados.clear();
+    renderAdmin();
+    renderTienda();
+    actualizarEstadisticasAdmin();
+    mostrarToast('Stock actualizado');
+  }
+};
+
+window.exportarProductos = function() {
+  let csv = 'ID,Nombre,Categoría,Presentación,Precio,Stock,Tipo\n';
+  productos.forEach(p => {
+    csv += `${p.id},"${p.nombre}","${CATS[p.cat] || p.cat}","${p.pres}",${p.precio},${p.stock},"${p.tipo || ''}"\n`;
+  });
+  
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'productos_hygia_' + new Date().toISOString().split('T')[0] + '.csv';
+  link.click();
+  
+  mostrarToast('Productos exportados');
+};
+
+window.abrirModalNuevo = function() {
+  editId = null;
+  document.getElementById('modalTitle').textContent = 'Nuevo Producto';
+  document.getElementById('fNombre').value = '';
+  document.getElementById('fCat').value = 'lavado';
+  document.getElementById('fPres').value = '';
+  document.getElementById('fPrecio').value = '';
+  document.getElementById('fStock').value = '';
+  document.getElementById('fEmoji').value = '';
+  document.getElementById('modalBg').classList.add('open');
+};
+
+window.editarProducto = function(id) {
+  const p = productos.find(x => x.id === id);
+  if (!p) return;
+  
+  editId = id;
+  document.getElementById('modalTitle').textContent = 'Editar Producto';
+  document.getElementById('fNombre').value = p.nombre;
+  document.getElementById('fCat').value = p.cat;
+  document.getElementById('fPres').value = p.pres;
+  document.getElementById('fPrecio').value = p.precio;
+  document.getElementById('fStock').value = p.stock;
+  document.getElementById('fEmoji').value = p.emoji;
+  document.getElementById('modalBg').classList.add('open');
+};
+
+window.eliminarProducto = function(id) {
+  if (confirm('¿Estás seguro de eliminar este producto?')) {
+    productos = productos.filter(p => p.id !== id);
+    renderAdmin();
+    renderTienda();
+    mostrarToast('Producto eliminado');
+  }
+};
+
+window.guardarProducto = function() {
+  const nombre = document.getElementById('fNombre').value.trim();
+  const cat = document.getElementById('fCat').value;
+  const pres = document.getElementById('fPres').value.trim();
+  const precio = parseFloat(document.getElementById('fPrecio').value) || 0;
+  const stock = parseInt(document.getElementById('fStock').value) || 0;
+  const emoji = document.getElementById('fEmoji').value.trim() || '📦';
+  
+  if (!nombre) {
+    alert('Ingrese el nombre del producto');
+    return;
+  }
+  
+  if (editId) {
+    const p = productos.find(x => x.id === editId);
+    if (p) {
+      p.nombre = nombre;
+      p.cat = cat;
+      p.pres = pres;
+      p.precio = precio;
+      p.stock = stock;
+      p.emoji = emoji;
+    }
+    mostrarToast('Producto actualizado');
+  } else {
+    const newId = Math.max(...productos.map(p => p.id)) + 1;
+    productos.push({
+      id: newId,
+      nombre,
+      cat,
+      pres,
+      precio,
+      stock,
+      emoji,
+      tipo: ''
+    });
+    mostrarToast('Producto agregado');
+  }
+  
   cerrarModal();
   renderAdmin();
   renderTienda();
-  mostrarToast('Producto guardado ✓');
-}
+};
 
-function eliminarProducto(id){
-  if(!confirm('¿Eliminar este producto?')) return;
-  productos=productos.filter(x=>x.id!==id);
-  carrito=carrito.filter(x=>x.id!==id);
-  renderAdmin();
+window.cerrarModal = function() {
+  document.getElementById('modalBg').classList.remove('open');
+};
+
+/* =========================
+   AUTH FUNCTIONS
+========================= */
+
+window.openAuthModal = function() {
+  document.getElementById('authModal').classList.add('open');
+};
+
+window.closeAuthModal = function() {
+  document.getElementById('authModal').classList.remove('open');
+};
+
+window.switchAuthTab = function(tab) {
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+  
+  if (tab === 'login') {
+    document.querySelector('.auth-tab:nth-child(1)').classList.add('active');
+    document.getElementById('loginForm').classList.add('active');
+  } else {
+    document.querySelector('.auth-tab:nth-child(2)').classList.add('active');
+    document.getElementById('registerForm').classList.add('active');
+  }
+};
+
+window.openDashboard = function() {
+  document.getElementById('userDashboard').classList.add('active');
+  document.getElementById('tienda').style.display = 'none';
+};
+
+window.showDashboardSection = function(section) {
+  document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  const content = document.getElementById('dashboardContent');
+  if (section === 'orders') {
+    content.innerHTML = '<h3>Mis Pedidos</h3><div class="orders-list" id="ordersList">...</div>';
+  } else if (section === 'profile') {
+    content.innerHTML = '<h3>Mi Perfil</h3><p>Información del perfil...</p>';
+  } else if (section === 'addresses') {
+    content.innerHTML = '<h3>Direcciones</h3><p>Gestión de direcciones...</p>';
+  } else if (section === 'wishlist') {
+    content.innerHTML = '<h3>Favoritos</h3><p>Productos favoritos...</p>';
+  }
+};
+
+window.loginWithGoogle = function() {
+  mostrarToast('Login con Google - En desarrollo');
+};
+
+window.loginWithFacebook = function() {
+  mostrarToast('Login con Facebook - En desarrollo');
+};
+
+window.signIn = function() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  
+  if (!email || !password) {
+    alert('Complete todos los campos');
+    return;
+  }
+  
+  mostrarToast('Iniciando sesión...');
+  setTimeout(() => {
+    closeAuthModal();
+    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('userProfileBtn').style.display = 'block';
+    document.getElementById('userAvatarSmall').textContent = email[0].toUpperCase();
+    document.getElementById('userName').textContent = email.split('@')[0];
+    document.getElementById('userAvatar').textContent = email[0].toUpperCase();
+    mostrarToast('Sesión iniciada');
+  }, 1000);
+};
+
+window.signUp = function() {
+  const name = document.getElementById('registerName').value;
+  const email = document.getElementById('registerEmail').value;
+  const phone = document.getElementById('registerPhone').value;
+  const password = document.getElementById('registerPassword').value;
+  
+  if (!name || !email || !password) {
+    alert('Complete los campos obligatorios');
+    return;
+  }
+  
+  mostrarToast('Creando cuenta...');
+  setTimeout(() => {
+    closeAuthModal();
+    document.getElementById('loginBtn').style.display = 'none';
+    document.getElementById('userProfileBtn').style.display = 'block';
+    document.getElementById('userAvatarSmall').textContent = name[0].toUpperCase();
+    document.getElementById('userName').textContent = name;
+    document.getElementById('userAvatar').textContent = name[0].toUpperCase();
+    mostrarToast('Cuenta creada');
+  }, 1000);
+};
+
+window.resetPassword = function() {
+  mostrarToast('Email de recuperación enviado');
+};
+
+window.logout = function() {
+  document.getElementById('loginBtn').style.display = 'block';
+  document.getElementById('userProfileBtn').style.display = 'none';
+  document.getElementById('userDashboard').classList.remove('active');
+  document.getElementById('tienda').style.display = 'block';
+  mostrarToast('Sesión cerrada');
+};
+
+/* =========================
+   REVIEW FUNCTIONS
+========================= */
+
+window.setRating = function(rating) {
+  document.querySelectorAll('.star-input').forEach((star, index) => {
+    if (index < rating) {
+      star.classList.add('active');
+    } else {
+      star.classList.remove('active');
+    }
+  });
+};
+
+window.submitReview = function() {
+  const title = document.getElementById('reviewTitle').value;
+  const comment = document.getElementById('reviewComment').value;
+  const rating = document.querySelectorAll('.star-input.active').length;
+  
+  if (!rating) {
+    alert('Seleccione una calificación');
+    return;
+  }
+  
+  if (!title || !comment) {
+    alert('Complete todos los campos');
+    return;
+  }
+  
+  closeReviewModal();
+  mostrarToast('Reseña publicada');
+};
+
+window.closeReviewModal = function() {
+  document.getElementById('reviewModal').classList.remove('open');
+};
+
+window.contactarWhatsApp = function() {
+  const mensaje = '¡Hola! Quiero hacer una consulta.';
+  const url = 'https://wa.me/5491100000000?text=' + encodeURIComponent(mensaje);
+  window.open(url, '_blank');
+};
+
+/* =========================
+   INICIALIZAR
+========================= */
+
+document.addEventListener('DOMContentLoaded', () => {
+
   renderTienda();
+
   renderCarrito();
-  mostrarToast('Producto eliminado');
-}
+
+});
 
 function mostrarToast(msg){
   const t=document.getElementById('toast');
@@ -462,8 +1812,80 @@ function mostrarToast(msg){
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-renderTienda();
-renderCarrito();
 </script>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h4>Química Hygia</h4>
+      <p>Fabricantes directos con más de 20 años de experiencia en productos de limpieza y cuidado personal del más alta calidad.</p>
+      <div class="footer-contact">
+        <strong>📍 Dirección:</strong> Dr Lorenzo Guarracino 2268, Lanús Este 1824<br>
+        <strong>📞 Teléfono:</strong> (011) XXXX-XXXX<br>
+        <strong>📧 Email:</strong> info@quimicahygia.com
+      </div>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Productos</h4>
+      <ul>
+        <li><a href="#lavado">Lavado de Ropa</a></li>
+        <li><a href="#limpieza">Limpieza del Hogar</a></li>
+        <li><a href="#papel">Papel Higiénico</a></li>
+        <li><a href="#accesorios">Accesorios</a></li>
+        <li><a href="#personal">Cuidado Personal</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Servicios</h4>
+      <ul>
+        <li><a href="#envios">Envíos a todo el país</a></li>
+        <li><a href="#mayorista">Ventas por mayor</a></li>
+        <li><a href="#asesoramiento">Asesoramiento técnico</a></li>
+        <li><a href="#garantia">Garantía de calidad</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Empresa</h4>
+      <ul>
+        <li><a href="#nosotros">Quiénes Somos</a></li>
+        <li><a href="#mision">Misión y Visión</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+        <li><a href="#blog">Blog</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <div class="footer-bottom-content">
+      <div class="footer-copyright">
+        <strong>&copy; 2024 Química Hygia</strong> — Todos los derechos reservados
+      </div>
+      <div class="footer-copyright" style="text-align: center; margin-top: 0.5rem;">
+        Creado y diseñado por <a href="https://ciborg347oficial.onrender.com/" target="_blank" style="color: #7ec8e3; text-decoration: none; font-weight: 600; transition: all 0.3s;" onmouseover="this.style.color='#fff'; this.style.textDecoration='underline';" onmouseout="this.style.color='#7ec8e3'; this.style.textDecoration='none';">Ciborg 347</a>
+      </div>
+      <div class="footer-social">
+        <a href="#" title="Facebook">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+        </a>
+        <a href="#" title="Instagram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zM5.838 12a6.162 6.162 0 1112.324 0 6.162 6.162 0 01-12.324 0zM12 16a4 4 0 110-8 4 4 0 010 8zm4.965-10.405a1.44 1.44 0 112.881.001 1.44 1.44 0 01-2.881-.001z"/>
+          </svg>
+        </a>
+        <a href="https://wa.me/5491100000000" title="WhatsApp" target="_blank">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.149-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414-.074-.123-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>
